@@ -662,6 +662,7 @@ func TestReadOnlyRootFS(t *testing.T) {
 func TestFormatEnvName(t *testing.T) {
 	type args struct {
 		name string
+		serviceName string
 	}
 	tests := []struct {
 		name string
@@ -696,10 +697,18 @@ func TestFormatEnvName(t *testing.T) {
 			},
 			want: "rstuvxyzabcdefghijklmnopqrstuvwxyzabcdejghijkl$Hereisadditional",
 		},
+		{
+			name: "check that not begins with -",
+			args: args{
+				name: "src/app/.env",
+				serviceName: "app",
+			},
+			want: "app-env",
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := FormatEnvName(tt.args.name); got != tt.want {
+			if got := FormatEnvName(tt.args.name, tt.args.serviceName); got != tt.want {
 				t.Errorf("FormatEnvName() = %v, want %v", got, tt.want)
 			}
 		})
