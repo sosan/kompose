@@ -82,3 +82,7 @@ tags
 
 # Client Test generated files
 client/testdata/generated
+
+# local
+.github/
+.github/dependabot.yaml
