@@ -84,5 +84,4 @@ tags
 client/testdata/generated
 
 # local
-.github/
-.github/dependabot.yaml
+/.github/**
