@@ -897,10 +897,6 @@ func FormatEnvName(name string, serviceName string) string {
 	if strings.Contains(envName, "/") {
 		envName = envName[strings.LastIndex(envName, "/")+1:]
 	}
-	// take only last chars: The ones after 63th index
-	if len(envName) > 63 {
-		envName = envName[len(envName)-63:]
-	}
 
 	envName = strings.Replace(envName, ".", "-", -1)
 	envName = checkUsableNameEnvFile(envName, serviceName)
