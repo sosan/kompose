@@ -241,7 +241,7 @@ func (k *Kubernetes) InitConfigMapForEnv(name string, opt kobject.ConvertOptions
 		},
 		ObjectMeta: metav1.ObjectMeta{
 			Name:   envName,
-			Labels: transformer.ConfigLabels(envName),
+			Labels: transformer.ConfigLabels(name + "-" + envName),
 		},
 		Data: envs,
 	}
