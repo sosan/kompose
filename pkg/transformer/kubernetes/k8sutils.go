@@ -899,15 +899,15 @@ func FormatEnvName(name string, serviceName string) string {
 	}
 
 	envName = strings.Replace(envName, ".", "-", -1)
-	envName = checkUsableNameEnvFile(envName, serviceName)
+	envName = getUsableNameEnvFile(envName, serviceName)
 	return envName
 }
 
-// checkUsableNameEnvFile checks and adjusts the environment file name to make it usable.
+// getUsableNameEnvFile checks and adjusts the environment file name to make it usable.
 // If the first character of envName is a hyphen "-", it is concatenated with nameService.
 // If the length of envName is greater than 63, it is truncated to 63 characters.
 // Returns the adjusted environment file name.
-func checkUsableNameEnvFile(envName string, serviceName string) string {
+func getUsableNameEnvFile(envName string, serviceName string) string {
 	if string(envName[0]) == "-" { // -env-local....
 		envName = fmt.Sprintf("%s%s", serviceName, envName)
 	}
