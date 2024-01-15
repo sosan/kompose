@@ -695,7 +695,7 @@ func TestFormatEnvName(t *testing.T) {
 			args: args{
 				name: "abcdefghijklnmopqrstuvxyzabcdefghijklmnopqrstuvwxyzabcdejghijkl$Hereisadditional",
 			},
-			want: "rstuvxyzabcdefghijklmnopqrstuvwxyzabcdejghijkl$Hereisadditional",
+			want: "abcdefghijklnmopqrstuvxyzabcdefghijklmnopqrstuvwxyzabcdejghijkl",
 		},
 		{
 			name: "check that not begins with -",
