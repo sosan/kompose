@@ -84,4 +84,4 @@ tags
 client/testdata/generated
 
 # local files
-.local
+*.local
