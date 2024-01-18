@@ -4,21 +4,21 @@
 
 ![logo](/docs/assets/images/logo.png)
 
-`kompose` is a tool to help users who are familiar with `docker-compose` move to [Kubernetes](http://kubernetes.io). `kompose` takes a Docker Compose file and translates it into Kubernetes resources.
+`kompose` is a tool to help users who are familiar with `docker-compose` move to [Kubernetes](http://kubernetes.io). `kompose` takes a [Compose Specification](https://compose-spec.io/) file and translates it into Kubernetes resources.
 
-`kompose` is a convenience tool to go from local Docker development to managing your application with Kubernetes. Transformation of the Docker Compose format to Kubernetes resources manifest may not be exact, but it helps tremendously when first deploying an application on Kubernetes.
+`kompose` is a convenience tool to go from local Compose environment to managing your application with Kubernetes. Transformation of the [Compose Specification](https://compose-spec.io/) format to Kubernetes resources manifest may not be exact, but it helps tremendously when first deploying an application on Kubernetes.
 
 ## Use Case
 
-Convert [`docker-compose.yaml`](https://raw.githubusercontent.com/kubernetes/kompose/main/examples/docker-compose.yaml) into Kubernetes deployments and services with one simple command:
+Convert [`compose.yaml`](https://raw.githubusercontent.com/kubernetes/kompose/main/examples/compose.yaml) into Kubernetes deployments and services with one simple command:
 
 ```sh
-$ kompose convert -f docker-compose.yaml
+$ kompose convert -f compose.yaml
 INFO Kubernetes file "frontend-service.yaml" created
-INFO Kubernetes file "redis-master-service.yaml" created
+INFO Kubernetes file "redis-leader-service.yaml" created
 INFO Kubernetes file "redis-replica-service.yaml" created
 INFO Kubernetes file "frontend-deployment.yaml" created
-INFO Kubernetes file "redis-master-deployment.yaml" created
+INFO Kubernetes file "redis-leader-deployment.yaml" created
 INFO Kubernetes file "redis-replica-deployment.yaml" created
 ```
 
@@ -51,10 +51,10 @@ Kompose is released via GitHub on a three-week cycle, you can see all current re
 
 ```sh
 # Linux
-curl -L https://github.com/kubernetes/kompose/releases/download/v1.31.2/kompose-linux-amd64 -o kompose
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.32.0/kompose-linux-amd64 -o kompose
 
 # macOS
-curl -L https://github.com/kubernetes/kompose/releases/download/v1.31.2/kompose-darwin-amd64 -o kompose
+curl -L https://github.com/kubernetes/kompose/releases/download/v1.32.0/kompose-darwin-amd64 -o kompose
 
 chmod +x kompose
 sudo mv ./kompose /usr/local/bin/kompose
@@ -62,7 +62,7 @@ sudo mv ./kompose /usr/local/bin/kompose
 
 **Windows:**
 
-Download from [GitHub](https://github.com/kubernetes/kompose/releases/download/v1.31.2/kompose-windows-amd64.exe) and add the binary to your PATH.
+Download from [GitHub](https://github.com/kubernetes/kompose/releases/download/v1.32.0/kompose-windows-amd64.exe) and add the binary to your PATH.
 
 ## Shell autocompletion
 
