@@ -37,7 +37,10 @@ import (
 )
 
 // Selector used as labels and selector
-const Selector = "io.kompose.service"
+const (
+	Selector = "io.kompose.service"
+	SelectorNetwork = "io.kompose.network/"
+)
 
 // Exists returns true if a file path exists.
 // Otherwise, returns false.
@@ -228,7 +231,7 @@ func ConfigLabelsWithNetwork(name string, net []string) map[string]string {
 	labels[Selector] = name
 
 	for _, n := range net {
-		labels["io.kompose.network/"+n] = "true"
+		labels[SelectorNetwork+n] = "true"
 	}
 	return labels
 	//return map[string]string{Selector: name, "Network": net}

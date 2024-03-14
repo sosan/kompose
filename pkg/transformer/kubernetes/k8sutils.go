@@ -784,6 +784,7 @@ func TranslatePodResource(service *kobject.ServiceConfig, template *api.PodTempl
 func GetImagePullPolicy(name, policy string) (api.PullPolicy, error) {
 	switch policy {
 	case "":
+		return api.PullIfNotPresent, nil
 	case "Always":
 		return api.PullAlways, nil
 	case "Never":

@@ -282,7 +282,25 @@ func configProbe(healthCheck kobject.HealthCheck) *api.Probe {
 	probe := api.Probe{}
 	// We check to see if it's blank or disable
 	if reflect.DeepEqual(healthCheck, kobject.HealthCheck{}) || healthCheck.Disable {
-		return nil
+		probe = api.Probe{
+			ProbeHandler: api.ProbeHandler{
+				Exec: &api.ExecAction{
+					Command: "command_to_test",
+				},
+				HTTPGet: &api.HTTPGetAction{
+					Path: "http://service.destino.com",
+					Port: intstr.FromInt(int(8080)),
+				},
+				TCPSocket: &api.TCPSocketAction{
+					Port: intstr.FromInt(int(8080)),
+				},
+			},
+			InitialDelaySeconds: 5,
+			TimeoutSeconds:      10,
+			PeriodSeconds:       5,
+			FailureThreshold:    5,
+		}
+		return &probe
 	}
 
 	if len(healthCheck.Test) > 0 {

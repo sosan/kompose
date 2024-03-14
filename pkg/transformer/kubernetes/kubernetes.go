@@ -1355,12 +1355,12 @@ func (k *Kubernetes) CreateNetworkPolicy(networkName string) (*networkingv1.Netw
 		},
 		Spec: networkingv1.NetworkPolicySpec{
 			PodSelector: metav1.LabelSelector{
-				MatchLabels: map[string]string{"io.kompose.network/" + networkName: str},
+				MatchLabels: map[string]string{transformer.SelectorNetwork + networkName: str},
 			},
 			Ingress: []networkingv1.NetworkPolicyIngressRule{{
 				From: []networkingv1.NetworkPolicyPeer{{
 					PodSelector: &metav1.LabelSelector{
-						MatchLabels: map[string]string{"io.kompose.network/" + networkName: str},
+						MatchLabels: map[string]string{transformer.SelectorNetwork + networkName: str},
 					},
 				}},
 			}},
