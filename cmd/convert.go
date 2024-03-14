@@ -120,7 +120,7 @@ var convertCmd = &cobra.Command{
 			IsDeploymentConfigFlag:      cmd.Flags().Lookup("deployment-config").Changed,
 			YAMLIndent:                  ConvertYAMLIndent,
 			Profiles:                    ConvertProfiles,
-			WithKomposeAnnotation:       WithKomposeAnnotation,
+			WithKomposeAnnotation:       GlobalAnnotations,
 			MultipleContainerMode:       MultipleContainerMode,
 			ServiceGroupMode:            ServiceGroupMode,
 			ServiceGroupName:            ServiceGroupName,
@@ -202,7 +202,7 @@ func init() {
 	convertCmd.Flags().StringVarP(&ConvertNamespace, "namespace", "n", "", `Specify the namespace of the generated resources`)
 	convertCmd.Flags().BoolVar(&GenerateNetworkPolicies, "generate-network-policies", false, "Specify whether to generate network policies or not")
 
-	convertCmd.Flags().BoolVar(&WithKomposeAnnotation, "with-kompose-annotation", true, "Add kompose annotations to generated resource")
+	convertCmd.Flags().BoolVar(&WithKomposeAnnotation, "with-kompose-annotation", false, "Add kompose annotations to generated resource")
 
 	// Deprecated commands
 	convertCmd.Flags().BoolVar(&ConvertEmptyVols, "emptyvols", false, "Use Empty Volumes. Do not generate PVCs")

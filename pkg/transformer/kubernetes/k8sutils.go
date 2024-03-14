@@ -603,7 +603,8 @@ func (k *Kubernetes) UpdateKubernetesObjects(name string, service kobject.Servic
 		}
 
 		// Setup security context
-		securityContext := &api.SecurityContext{}
+		securityContext := getDefaultSecurityContext()
+
 		if service.Privileged {
 			securityContext.Privileged = &service.Privileged
 		}
@@ -1013,4 +1014,23 @@ func getResourceRequests(productionReady *bool) api.ResourceList {
 		api.ResourceMemory: *resource.NewQuantity(DEFAULT_MEMORY_REQUEST, resource.DecimalSI),
 	}
 	return resourceRequests
+}
+
+func getDefaultSecurityContext() *api.SecurityContext {
+	booleanFalse := false
+	booleanTrue := true
+	runAsUnpriviliged := int64(10001)
+
+	securityContext := &api.SecurityContext{
+		Privileged:               &booleanFalse,
+		RunAsUser:                &runAsUnpriviliged,
+		RunAsGroup:               &runAsUnpriviliged,
+		ReadOnlyRootFilesystem:   &booleanTrue,
+		AllowPrivilegeEscalation: &booleanFalse,
+		RunAsNonRoot:             &booleanTrue,
+		Capabilities: &api.Capabilities{
+			Drop: []api.Capability{"ALL"},
+		},
+	}
+	return securityContext
 }

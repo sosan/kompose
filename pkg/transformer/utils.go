@@ -248,7 +248,6 @@ func ConfigAllLabels(name string, service *kobject.ServiceConfig) map[string]str
 // ConfigAnnotations configures annotations
 func ConfigAnnotations(service kobject.ServiceConfig) map[string]string {
 	annotations := map[string]string{}
-	return annotations
 
 	if !service.WithKomposeAnnotation {
 		return annotations

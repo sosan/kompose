@@ -63,7 +63,7 @@ func (k *Kompose) setDefaultValues(options ConvertOptions) ConvertOptions {
 	replicasDefaultValue := 1
 	buildDefaultValue := "none"
 	volumeTypeDefaultValue := "persistentVolumeClaim"
-	withKomposeAnnotationsDefaultValue := true
+	withKomposeAnnotationsDefaultValue := false
 	kubernetesControllerDefaultValue := ""
 	kubernetesServiceGroupModeDefaultValue := ""
 
