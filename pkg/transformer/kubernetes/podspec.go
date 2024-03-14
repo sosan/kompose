@@ -285,7 +285,7 @@ func configProbe(healthCheck kobject.HealthCheck) *api.Probe {
 		probe = api.Probe{
 			ProbeHandler: api.ProbeHandler{
 				Exec: &api.ExecAction{
-					Command: "command_to_test",
+					Command: []string{"command_to_test"},
 				},
 				HTTPGet: &api.HTTPGetAction{
 					Path: "http://service.destino.com",
