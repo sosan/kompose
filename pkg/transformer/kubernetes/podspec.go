@@ -288,7 +288,7 @@ func configProbe(healthCheck kobject.HealthCheck) *api.Probe {
 					Command: []string{"command_to_test"},
 				},
 				HTTPGet: &api.HTTPGetAction{
-					Path: "http://service.destino.com",
+					Path: "/",
 					Port: intstr.FromInt(int(8080)),
 				},
 				TCPSocket: &api.TCPSocketAction{
