@@ -739,6 +739,8 @@ func parseKomposeLabels(labels map[string]string, serviceConfig *kobject.Service
 		serviceConfig.Labels = make(map[string]string)
 	}
 
+	serviceConfig.Labels = addDefaultCommonLabels(serviceConfig.Labels)
+
 	for key, value := range labels {
 		switch key {
 		case LabelServiceType:
@@ -819,6 +821,23 @@ func parseKomposeLabels(labels map[string]string, serviceConfig *kobject.Service
 	}
 
 	return nil
+}
+
+func addDefaultCommonLabels(labels map[string]string) map[string]string {
+	newLabels := make(map[string]string)
+	newLabels["app"] = "APP_NAME"
+	newLabels["app.kubernetes.io/name"] = "APP_NAME"
+	newLabels["app.kubernetes.io/instance"] = "APP_NAME-000000-000000"
+	newLabels["app.kubernetes.io/version"] = "0.1"
+	newLabels["app.kubernetes.io/component"] = "APP"
+	newLabels["app.kubernetes.io/part-of"] = "ANOTHER_PART"
+	newLabels["app.kubernetes.io/managed-by"] = "CUSTOM_MANAGED"
+
+	for k, v := range labels {
+		newLabels[k] = v
+	}
+
+	return newLabels
 }
 
 func handleVolume(komposeObject *kobject.KomposeObject, volumes *types.Volumes) {

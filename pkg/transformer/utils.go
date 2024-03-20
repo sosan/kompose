@@ -38,7 +38,7 @@ import (
 
 // Selector used as labels and selector
 const (
-	Selector = "io.kompose.service"
+	Selector        = "io.kompose.service"
 	SelectorNetwork = "io.kompose.network/"
 )
 
@@ -242,6 +242,11 @@ func ConfigAllLabels(name string, service *kobject.ServiceConfig) map[string]str
 	base := ConfigLabels(name)
 	if service.DeployLabels != nil {
 		for k, v := range service.DeployLabels {
+			base[k] = v
+		}
+	}
+	if service.Labels != nil {
+		for k, v := range service.Labels {
 			base[k] = v
 		}
 	}

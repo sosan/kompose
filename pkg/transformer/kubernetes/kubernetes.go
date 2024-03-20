@@ -388,7 +388,7 @@ func (k *Kubernetes) InitD(name string, service kobject.ServiceConfig, replicas 
 			},
 			Template: api.PodTemplateSpec{
 				ObjectMeta: metav1.ObjectMeta{
-					//Labels: transformer.ConfigLabels(name),
+					// Labels: transformer.ConfigLabels(name, &service),
 					Annotations: transformer.ConfigAnnotations(service),
 				},
 				Spec: podSpec,
