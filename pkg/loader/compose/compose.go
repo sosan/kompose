@@ -281,7 +281,7 @@ func loadPorts(ports []types.ServicePortConfig, expose []string) []kobject.Ports
 	for _, port := range ports {
 		// Convert to a kobject struct with ports
 		komposePorts = append(komposePorts, kobject.Ports{
-			HostPort:      cast.ToInt32(port.Published),
+			// HostPort:      cast.ToInt32(port.Published),
 			ContainerPort: int32(port.Target),
 			HostIP:        port.HostIP,
 			Protocol:      strings.ToUpper(port.Protocol),
