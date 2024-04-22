@@ -2,9 +2,6 @@ name: Go
 
 on:
   push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
 env:
   # Avoid noisy outputs like "tput: No value for $TERM and no -T specified"
   TERM: dumb
