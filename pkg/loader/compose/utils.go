@@ -218,17 +218,34 @@ func ReadFile(fileName string) ([]byte, error) {
 func addPrefixToServiceName(project *types.Project, prefix string) {
 	for key := range project.Services {
 		tempService := project.Services[key]
-		tempService.Name = formatNormalizeResourceName(project.Services[key].Name, prefix)
+		resourceName, affix := formatNormalizeResourceName(tempService.Name, prefix)
+		if affix != "" {
+			affix = affix + "-"
+		}
+		tempService.Name = fmt.Sprintf("%s%s", affix, resourceName)
+		project.Services[key] = tempService
+	}
+}
+
+// Iterates over each service in the project
+// and modifies its name by adding the specified suffix
+func addSuffixToServiceName(project *types.Project, suffix string) {
+	for key := range project.Services {
+		tempService := project.Services[key]
+		resourceName, affix := formatNormalizeResourceName(tempService.Name, suffix)
+		if affix != "" {
+			affix = "-" + affix
+		}
+		tempService.Name = fmt.Sprintf("%s%s", resourceName, affix)
 		project.Services[key] = tempService
 	}
 }
 
 // Opted to use normalizeContainerNames over normalizeServiceNames
 // as in tests, normalization is only to lowercase.
-func formatNormalizeResourceName(resourceName string, prefix string) string {
-	if prefix != "" {
-		prefix = strings.ToLower(strings.Trim(prefix, "_-")) + "-"
+func formatNormalizeResourceName(resourceName string, affix string) (string, string) {
+	if affix != "" {
+		affix = strings.ToLower(strings.Trim(affix, "_-"))
 	}
-	resourceName = strings.Trim(strings.ToLower(strings.ReplaceAll(resourceName, "_", "-")), "-")
-	return fmt.Sprintf("%s%s", prefix, resourceName)
+	return strings.Trim(strings.ToLower(strings.ReplaceAll(resourceName, "_", "-")), "-"), affix
 }

@@ -47,6 +47,7 @@ var (
 	GlobalErrorOnWarning   bool
 	GlobalFiles            []string
 	GlobalPrefixAdd        string
+	GlobalSuffixAdd        string
 )
 
 // RootCmd root level flags and commands
@@ -113,4 +114,5 @@ func init() {
 	RootCmd.PersistentFlags().StringSliceVarP(&GlobalFiles, "file", "f", []string{}, "Specify an alternative compose file")
 	RootCmd.PersistentFlags().StringVar(&GlobalProvider, "provider", "kubernetes", "Specify a provider. Kubernetes or OpenShift.")
 	RootCmd.PersistentFlags().StringVarP(&GlobalPrefixAdd, "prefix", "x", "", "Adds a custom prefix to service names")
+	RootCmd.PersistentFlags().StringVarP(&GlobalSuffixAdd, "suffix", "s", "", "Adds a custom suffix to service names")
 }

@@ -151,7 +151,7 @@ func checkUnsupportedKey(composeProject *types.Project) []string {
 }
 
 // LoadFile loads a compose file into KomposeObject
-func (c *Compose) LoadFile(files []string, profiles []string, prefix string) (kobject.KomposeObject, error) {
+func (c *Compose) LoadFile(files []string, profiles []string, prefix string, suffix string) (kobject.KomposeObject, error) {
 	// Gather the working directory
 	workingDir, err := transformer.GetComposeFileDir(files)
 	if err != nil {
@@ -182,6 +182,10 @@ func (c *Compose) LoadFile(files []string, profiles []string, prefix string) (ko
 	}
 	if prefix != "" {
 		addPrefixToServiceName(project, prefix)
+	}
+
+	if suffix != "" {
+		addSuffixToServiceName(project, suffix)
 	}
 
 	komposeObject, err := dockerComposeToKomposeMapping(project)

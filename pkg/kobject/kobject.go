@@ -93,6 +93,7 @@ type ConvertOptions struct {
 	SecretsAsFiles          bool
 	GenerateNetworkPolicies bool
 	PrefixAdd               string
+	SuffixAdd               string
 }
 
 // IsPodController indicate if the user want to use a controller

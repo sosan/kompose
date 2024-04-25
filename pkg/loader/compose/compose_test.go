@@ -651,7 +651,266 @@ func checkConstraints(t *testing.T, caseName string, output, expected map[string
 func Test_formatNormalizeResourceName(t *testing.T) {
 	type args struct {
 		resourceName string
-		prefix       string
+		affix        string
+	}
+	tests := []struct {
+		name             string
+		args             args
+		wantResourceName string
+		wantAffix        string
+	}{
+		{
+			name: "Prefix present without underscore without dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "prefix",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with double dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "--prefix--",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with end double dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "-prefix--",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with dash and underscore",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "-prefix_-",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with double underscore and dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "__prefix_-",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with double underscore",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "__prefix__",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with underscore",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "prefix_",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "prefix-",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with uppercase and underscore",
+			args: args{
+				resourceName: "RESOURCE-NAME",
+				affix:        "PREFIX_",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "Prefix present with dash and underscore",
+			args: args{
+				resourceName: "RESOURCE-NAME-",
+				affix:        "-PREFIX_",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "prefix",
+		},
+		{
+			name: "without prefix, resourcename with dash",
+			args: args{
+				resourceName: "RESOURCE-NAME-",
+				affix:        "",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "",
+		},
+		{
+			name: "without prefix, resourcename with underscore and dash",
+			args: args{
+				resourceName: "RESOURCE-NAME_",
+				affix:        "",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "",
+		},
+		{
+			name: "without prefix, resourcename with underscore",
+			args: args{
+				resourceName: "_RESOURCE_NAME_",
+				affix:        "",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "",
+		},
+		{
+			name: "Suffix present without underscore without dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "suffix",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with double dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "--suffix--",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with end double dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "-suffix--",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with dash and underscore",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "-suffix_-",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with double underscore and dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "__suffix_-",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with double underscore",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "__suffix__",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with underscore",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "suffix_",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with dash",
+			args: args{
+				resourceName: "resource-name",
+				affix:        "suffix-",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with uppercase and underscore",
+			args: args{
+				resourceName: "RESOURCE-NAME",
+				affix:        "SUFFIX_",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "Suffix present with dash and underscore",
+			args: args{
+				resourceName: "RESOURCE-NAME-",
+				affix:        "-SUFFIX_",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "suffix",
+		},
+		{
+			name: "without suffix, resourcename with dash",
+			args: args{
+				resourceName: "RESOURCE-NAME-",
+				affix:        "",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "",
+		},
+		{
+			name: "without suffix, resourcename with underscore and dash",
+			args: args{
+				resourceName: "RESOURCE-NAME_",
+				affix:        "",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "",
+		},
+		{
+			name: "without suffix, resourcename with underscore",
+			args: args{
+				resourceName: "_RESOURCE_NAME_",
+				affix:        "",
+			},
+			wantResourceName: "resource-name",
+			wantAffix:        "",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			gotResourceName, gotAffix := formatNormalizeResourceName(tt.args.resourceName, tt.args.affix)
+			if gotResourceName != tt.wantResourceName {
+				t.Errorf("formatNormalizeResourceName() = %v, want %v", gotResourceName, tt.wantResourceName)
+			}
+			if gotAffix != tt.wantAffix {
+				t.Errorf("formatNormalizeResourceName() = %v, want %v", gotAffix, tt.wantAffix)
+			}
+		})
+	}
+}
+
+func Test_addPrefixToServiceName(t *testing.T) {
+	type args struct {
+		project *types.Project
+		prefix  string
 	}
 	tests := []struct {
 		name string
@@ -661,72 +920,315 @@ func Test_formatNormalizeResourceName(t *testing.T) {
 		{
 			name: "Prefix present without underscore without dash",
 			args: args{
-				resourceName: "resource-name",
-				prefix:       "prefix",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				prefix: "prefix",
 			},
 			want: "prefix-resource-name",
 		},
 		{
 			name: "Prefix present with underscore",
 			args: args{
-				resourceName: "resource-name",
-				prefix:       "prefix_",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				prefix: "prefix_",
 			},
 			want: "prefix-resource-name",
 		},
 		{
 			name: "Prefix present with dash",
 			args: args{
-				resourceName: "resource-name",
-				prefix:       "prefix-",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				prefix: "prefix-",
 			},
 			want: "prefix-resource-name",
 		},
 		{
 			name: "Prefix present with uppercase and underscore",
 			args: args{
-				resourceName: "RESOURCE-NAME",
-				prefix:       "PREFIX_",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME",
+						},
+					},
+				},
+				prefix: "PREFIX_",
 			},
 			want: "prefix-resource-name",
 		},
 		{
 			name: "Prefix present with dash and underscore",
 			args: args{
-				resourceName: "RESOURCE-NAME-",
-				prefix:       "-PREFIX_",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME-",
+						},
+					},
+				},
+				prefix: "-PREFIX_",
 			},
 			want: "prefix-resource-name",
 		},
 		{
-			name: "without prefix, resourcename with dash",
+			name: "Without prefix, resourcename with dash",
 			args: args{
-				resourceName: "RESOURCE-NAME-",
-				prefix:       "",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME-",
+						},
+					},
+				},
+				prefix: "",
 			},
 			want: "resource-name",
 		},
 		{
-			name: "without prefix, resourcename with underscore and dash",
+			name: "Without prefix, resourcename with underscore",
 			args: args{
-				resourceName: "RESOURCE-NAME_",
-				prefix:       "",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME_",
+						},
+					},
+				},
+				prefix: "",
 			},
 			want: "resource-name",
 		},
 		{
-			name: "without prefix, resourcename with underscore",
+			name: "without prefix, resourcename with doble underscore and dash",
 			args: args{
-				resourceName: "_RESOURCE_NAME_",
-				prefix:       "",
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME__",
+						},
+					},
+				},
+				prefix: "",
+			},
+			want: "resource-name",
+		},
+		{
+			name: "without prefix, resourcename with doble underscore and dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "_RESOURCE_NAME_",
+						},
+					},
+				},
+				prefix: "",
 			},
 			want: "resource-name",
 		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := formatNormalizeResourceName(tt.args.resourceName, tt.args.prefix); got != tt.want {
-				t.Errorf("formatNormalizeResourceName() = %v, want %v", got, tt.want)
+			addPrefixToServiceName(tt.args.project, tt.args.prefix)
+			for _, service := range tt.args.project.Services {
+				if service.Name != tt.want {
+					t.Errorf("addPrefixToServiceName() = %v, want %v", service.Name, tt.want)
+				}
+			}
+		})
+	}
+}
+
+func Test_addSuffixToServiceName(t *testing.T) {
+	type args struct {
+		project *types.Project
+		suffix  string
+	}
+	tests := []struct {
+		name string
+		args args
+		want string
+	}{
+		{
+			name: "Suffix present without underscore without dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				suffix: "suffix",
+			},
+			want: "resource-name-suffix",
+		},
+		{
+			name: "Suffix present with underscore",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				suffix: "suffix_",
+			},
+			want: "resource-name-suffix",
+		},
+		{
+			name: "Suffix present with dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				suffix: "suffix-",
+			},
+			want: "resource-name-suffix",
+		},
+		{
+			name: "Suffix present begin and end with dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				suffix: "-suffix-",
+			},
+			want: "resource-name-suffix",
+		},
+		{
+			name: "Suffix present begin and end with underscore",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "resource-name",
+						},
+					},
+				},
+				suffix: "_suffix_",
+			},
+			want: "resource-name-suffix",
+		},
+		{
+			name: "Suffix present with uppercase and underscore",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME",
+						},
+					},
+				},
+				suffix: "SUFFIX_",
+			},
+			want: "resource-name-suffix",
+		},
+		{
+			name: "Suffix present with dash and underscore",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME-",
+						},
+					},
+				},
+				suffix: "-SUFFIX_",
+			},
+			want: "resource-name-suffix",
+		},
+
+		{
+			name: "Without suffix, resourcename with dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME-",
+						},
+					},
+				},
+				suffix: "",
+			},
+			want: "resource-name",
+		},
+		{
+			name: "Without suffix, resourcename with underscore",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME_",
+						},
+					},
+				},
+				suffix: "",
+			},
+			want: "resource-name",
+		},
+		{
+			name: "without suffix, resourcename with doble underscore and dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "RESOURCE-NAME__",
+						},
+					},
+				},
+				suffix: "",
+			},
+			want: "resource-name",
+		},
+		{
+			name: "without suffix, resourcename with doble underscore and dash",
+			args: args{
+				project: &types.Project{
+					Services: types.Services{
+						"foo": types.ServiceConfig{
+							Name: "_RESOURCE_NAME_",
+						},
+					},
+				},
+				suffix: "",
+			},
+			want: "resource-name",
+		},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			addSuffixToServiceName(tt.args.project, tt.args.suffix)
+			for _, service := range tt.args.project.Services {
+				if service.Name != tt.want {
+					t.Errorf("addSuffixToServiceName() = %v, want %v", service.Name, tt.want)
+				}
 			}
 		})
 	}

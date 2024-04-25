@@ -130,6 +130,7 @@ var convertCmd = &cobra.Command{
 			PushCommand:                 PushCommand,
 			Namespace:                   ConvertNamespace,
 			PrefixAdd:                   GlobalPrefixAdd,
+			SuffixAdd:                   GlobalSuffixAdd,
 		}
 
 		if ServiceGroupMode == "" && MultipleContainerMode {
@@ -203,7 +204,6 @@ func init() {
 	convertCmd.Flags().BoolVar(&GenerateNetworkPolicies, "generate-network-policies", false, "Specify whether to generate network policies or not")
 
 	convertCmd.Flags().BoolVar(&WithKomposeAnnotation, "with-kompose-annotation", true, "Add kompose annotations to generated resource")
-	convertCmd.Flags().StringVarP(&GlobalPrefixAdd, "prefix", "x", "", "Adds a custom prefix to service names")
 
 	// Deprecated commands
 	convertCmd.Flags().BoolVar(&ConvertEmptyVols, "emptyvols", false, "Use Empty Volumes. Do not generate PVCs")

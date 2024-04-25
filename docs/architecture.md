@@ -24,7 +24,7 @@ Loader is represented by a Loader interface:
 
 ```go
 type Loader interface {
-	LoadFile(files []string, profiles []string, prefix string) (kobject.KomposeObject, error)
+	LoadFile(files []string, profiles []string, prefix string, suffix string) (kobject.KomposeObject, error)
 }
 ```
 
